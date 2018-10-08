@@ -1,17 +1,22 @@
 <template>
-  <div class='carousel-view flex1'>
-    <div class='button-prev flex2' @click="previous"></div>
+  <div class='carousel-view '>
+    <div class='button-prev' @click="arrowLeft"></div>
     <transition-group class='carousel' tag="div">
       <div v-for="(slide, index) in slides" class='slide' :key="slide.id" :style="{backgroundImage: 'url(' + slides[index].imgLink + ')'}">
         <!--<img :src='slide.imgLink'>-->
         <h4> {{ slide.title }} </h4>
       </div>
     </transition-group>
-    <div class='button-next flex2' @click="next"></div>
+
     <!--<div class='carousel-controls'>
-      <button class='carousel-controls__button' @click="previous">prev</button>
+
+      <div class='squares'>
+        <div v-for="slide in slides" :key="slide.id"></div>
+      </div>
+      <!--<button class='carousel-controls__button' @click="previous">prev</button>
       <button class='carousel-controls__button' @click="next">next</button>
     </div>-->
+    <div class='button-next' @click="arrowRight"></div>
   </div>
 </template>
 
@@ -47,12 +52,13 @@
             title: 'ADOBONG MANOK',
             id: 5
           }
-        ]
+        ],
+        stopMe: null
       }
     },
     created() {
       let selfie = this;
-      setInterval(() => {
+      this.stopMe = setInterval(() => {
         selfie.next();
       }, 4000)
 
@@ -65,6 +71,23 @@
       previous() {
         const last = this.slides.pop()
         this.slides = [last].concat(this.slides)
+      },
+      arrowLeft() {
+        clearInterval(this.stopMe);
+        this.previous();
+        let selfie = this;
+        this.stopMe = setInterval(() => {
+          selfie.previous()
+        }, 4000)
+
+      },
+      arrowRight() {
+        clearInterval(this.stopMe);
+        this.next();
+        let selfie = this;
+        this.stopMe = setInterval(() => {
+          selfie.next()
+        }, 4000)
       }
     }
   }
@@ -86,6 +109,7 @@
 
   .carousel-view {
     position: relative;
+    width: 400px;
   }
 
   .carousel-view .button-prev,
@@ -96,6 +120,7 @@
     position: absolute;
     top: 50%;
     border: 12px solid transparent;
+
     /*border-left-color: transparent;
     border-right-color: purple;
     border-bottom-color: violet;
@@ -110,10 +135,23 @@
 
 
   .carousel-view .button-next {
-    right: 63.5%;
     border-left-color: black;
     transform: rotate(3deg);
-    margin-left: 2px;
+  }
+
+  .carousel-controls .squares {
+    position: absolute;
+    bottom: 0;
+  }
+
+  .carousel-controls .squares div {
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    margin-right: 10px;
+    background-color: yellow;
+    border-radius: 50%;
+
   }
 
   .carousel {
@@ -143,5 +181,138 @@
 
   .slide:last-of-type {
     opacity: 0;
+  }
+
+  /*media queries*/
+  @media screen and (max-width: 320px) {
+    .slide {
+      height: 21em;
+      flex: 0 0 21em;
+    }
+
+    .carousel-view .button-next {
+      right: 3%;
+      padding: 2px;
+    }
+
+    .carousel-view .button-prev {}
+
+    .carousel-controls .squares {
+
+      left: 30%;
+    }
+
+
+  }
+
+  @media screen and (max-width: 375px) {
+    .slide {
+      height: 20em;
+      flex: 0 0 20em;
+    }
+
+    .carousel-view .button-next {
+      right: 3%;
+      padding: 2px;
+    }
+
+    .carousel-view .button-prev {}
+
+    .carousel-controls .squares {
+
+      left: 30%;
+    }
+  }
+
+  @media screen and (max-width: 425px) {
+    .slide {
+      height: 20em;
+      flex: 0 0 20em;
+    }
+
+    .carousel-view .button-next {
+      right: 3%;
+      padding: 2px;
+    }
+
+    .carousel-view .button-prev {}
+
+    .carousel-controls .squares {
+
+      left: 30%;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .slide {
+      height: 20em;
+      flex: 0 0 20em;
+    }
+
+    .carousel-view .button-next {
+      right: 3%;
+      padding: 2px;
+    }
+
+    .carousel-view .button-prev {}
+
+    .carousel-controls .squares {
+
+      left: 30%;
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    .slide {
+      height: 20em;
+      flex: 0 0 20em;
+    }
+
+    .carousel-view .button-next {
+      right: 3%;
+      padding: 2px;
+    }
+
+    .carousel-view .button-prev {}
+
+    .carousel-controls .squares {
+      left: 30%;
+    }
+  }
+
+  @media screen and (max-width: 1440px) {
+    .slide {
+      height: 20em;
+      flex: 0 0 20em;
+    }
+
+    .carousel-view .button-next {
+      right: 3%;
+      padding: 2px;
+    }
+
+    .carousel-view .button-prev {}
+
+    .carousel-controls .squares {
+      left: 30%;
+    }
+  }
+
+  @media screen and (max-width: 2560px) {
+    .slide {
+      height: 20em;
+      flex: 0 0 20em;
+    }
+
+    .carousel-view .button-next {
+      right: 3%;
+      padding: 2px;
+    }
+
+    .carousel-view .button-prev {}
+
+    .carousel-controls .squares {
+      left: 30%;
+    }
   }
 </style>
