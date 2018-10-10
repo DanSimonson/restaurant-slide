@@ -8,8 +8,8 @@
       </div>
     </transition-group>
 
-    <div class='carousel-controls' style="border: 3px solid green;">
-      <div class='squares' style="border: 3px solid green;">
+    <div class='carousel-controls'>
+      <div class='squares'>
         <div v-for="(slide, index) in slides" :key="slide.id" :style="{backgroundImage: 'url(' + slides[index].imgLink + ')'}">
           <!--<h4 style="color:black">{{slide.title}}</h4>-->
         </div>
@@ -164,8 +164,7 @@
   .carousel-controls .squares div {
 
     /*height: 20px;
-    width: 20px;
-    
+    width: 20px;    
     margin-right: 10px;
     background-color: yellow;
     border-radius: 50%;
