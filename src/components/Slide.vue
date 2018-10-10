@@ -1,6 +1,6 @@
 <template>
   <div class='carousel-view '>
-    <div class='button-prev' @click="arrowLeft"></div>
+    <div class='button-prev' @click="arrowLeft" name='fade'></div>
     <transition-group class='carousel' tag="div">
       <div v-for="(slide, index) in slides" class='slide' :key="slide.id" :style="{backgroundImage: 'url(' + slides[index].imgLink + ')'}">
         <!--<img :src='slide.imgLink'>-->
@@ -8,14 +8,18 @@
       </div>
     </transition-group>
 
-    <!--<div class='carousel-controls'>
+    <div class='carousel-controls' style="border: 3px solid green;">
+      <div class='squares' style="border: 3px solid green;">
+        <div v-for="(slide, index) in slides" :key="slide.id" :style="{backgroundImage: 'url(' + slides[index].imgLink + ')'}">
+          <!--<h4 style="color:black">{{slide.title}}</h4>-->
+        </div>
+        <p style="display:inline-block;">{{ slides[currentMsg].title }}</p>
 
-      <div class='squares'>
-        <div v-for="slide in slides" :key="slide.id"></div>
       </div>
       <!--<button class='carousel-controls__button' @click="previous">prev</button>
-      <button class='carousel-controls__button' @click="next">next</button>
-    </div>-->
+      <button class='carousel-controls__button' @click="next">next</button>-->
+
+    </div>
     <div class='button-next' @click="arrowRight"></div>
   </div>
 </template>
@@ -53,7 +57,9 @@
             id: 5
           }
         ],
-        stopMe: null
+        stopMe: null,
+        stopMsg: null,
+        currentMsg: ''
       }
     },
     created() {
@@ -61,9 +67,20 @@
       this.stopMe = setInterval(() => {
         selfie.next();
       }, 4000)
+      this.stopMsg = setTimeout(() => {
+        this.nextSlide();
+      }, 4000)
+      this.nextSlide()
 
     },
     methods: {
+      nextSlide() {
+        if (this.currentMsg + 1 < this.slides.length) {
+          this.currentMsg++;
+        } else {
+          this.currentMsg = 0
+        }
+      },
       next() {
         const first = this.slides.shift()
         this.slides = this.slides.concat(first)
@@ -145,12 +162,17 @@
   }
 
   .carousel-controls .squares div {
-    height: 20px;
+
+    /*height: 20px;
     width: 20px;
-    display: inline-block;
+    
     margin-right: 10px;
     background-color: yellow;
     border-radius: 50%;
+    display: flex;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);*/
 
   }
 
@@ -173,6 +195,7 @@
     border: 0.1em solid #000;
     border-radius: 50%;
     transition: transform 0.3s ease-in-out;
+
   }
 
   .slide:first-of-type {
@@ -181,6 +204,21 @@
 
   .slide:last-of-type {
     opacity: 0;
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: all 0.8s ease;
+    overflow: hidden;
+    visibility: visible;
+    opacity: 1;
+    position: absolute;
+  }
+
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+    visibility: hidden;
   }
 
   /*media queries*/
